@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_29_192404) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_31_203259) do
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "account_number", null: false
@@ -21,6 +21,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_192404) do
     t.datetime "updated_at", null: false
     t.index ["account_number"], name: "index_accounts_on_account_number", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "login_logs", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "ip_address", null: false
+    t.text "user_agent", null: false
+    t.boolean "successful", default: false, null: false
+    t.datetime "logged_in_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_login_logs_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -38,4 +49,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_192404) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "login_logs", "users"
 end
