@@ -17,7 +17,7 @@ class User < ApplicationRecord
     compliance: "compliance",
     admin: "admin",
     superadmin: "superadmin"
-  }
+  }, suffix: true
 
   after_initialize :set_default_role, if: :new_record?
 
