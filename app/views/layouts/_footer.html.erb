@@ -1,0 +1,33 @@
+<footer class="bg-base-100 text-base-content">
+  <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+    
+    <div>
+      <h2 class="text-lg font-semibold text-primary mb-2">ZenithArc</h2>
+      <p class="text-sm text-gray-500">
+        Secure, fast and extensible online banking platform.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="text-md font-semibold text-secondary mb-2">Quick Links</h3>
+      <ul class="space-y-1 text-sm">
+        <li><%= link_to 'Arc', root_path, class: "hover:text-primary" %></li>
+        <li><%= link_to 'Store', root_path, class: "hover:text-primary" %></li>
+        <li><%= link_to 'Dashboard', root_path, class: "hover:text-primary" %></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-md font-semibold text-secondary mb-2">Contact</h3>
+      <p class="text-sm">Karakura Town,<br>Human World</p>
+      <p class="text-sm mt-1">Email: zenitharc@begins.rmb</p>
+    </div>
+
+  </div>
+
+  <div class="border-t border-base-300 py-4 text-center text-sm text-gray-500">
+    &copy; <%= Time.current.year %> ZenithArc. All rights reserved.
+  </div>
+</footer>
+
+

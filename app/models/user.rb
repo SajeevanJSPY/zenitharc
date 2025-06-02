@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :accounts
+  has_many :login_logs
   validates :role, presence: true
   validates :full_name, presence: true
 

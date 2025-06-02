@@ -1,0 +1,58 @@
+<!-- app/views/home/index.html.erb -->
+
+<div class="min-h-screen bg-base-200 text-base-content p-6">
+  <% if user_signed_in? %>
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-4">
+        Welcome, <%= current_user.full_name %>!
+      </h1>
+
+      <!-- Accounts -->
+      <div class="bg-base-100 rounded-lg shadow p-4 mb-6 border-l-4 border-primary">
+        <h2 class="text-xl font-semibold text-secondary mb-2">Your Accounts</h2>
+        <% @accounts.each do |account| %>
+          <div class="mb-3">
+            <p><strong>Account #:</strong> <%= account.account_number %></p>
+            <p><strong>Type:</strong> <%= account.account_type %></p>
+            <p><strong>Balance:</strong> $<%= number_with_precision(account.balance, precision: 2) %></p>
+            <p><strong>Status:</strong> <%= account.status.capitalize %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Transactions -->
+      <div class="bg-base-100 rounded-lg shadow p-4 mb-6 border-l-4 border-accent">
+        <h2 class="text-xl font-semibold text-secondary mb-2">Recent Transactions</h2>
+        <% @transactions.first(10).each do |tx| %>
+          <div class="border-b border-base-300 py-2">
+            <p><strong>From:</strong> <%= tx.from_id %> → <strong>To:</strong> <%= tx.to_id %></p>
+            <p><strong>Amount:</strong> $<%= number_with_precision(tx.amount, precision: 2) %> - <%= tx.transaction_type %></p>
+            <p><strong>Status:</strong> <%= tx.status.capitalize %> | <%= time_ago_in_words(tx.created_at) %> ago</p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Login Logs -->
+      <div class="bg-base-100 rounded-lg shadow p-4 border-l-4 border-warning">
+        <h2 class="text-xl font-semibold text-secondary mb-2">Recent Logins</h2>
+        <% @login_logs.each do |log| %>
+          <div class="text-sm text-base-content/70 mb-2">
+            <p><%= log.logged_in_at.strftime("%b %d, %Y %I:%M %p") %> from <%= log.ip_address %> - 
+              <span class="<%= log.successful ? 'text-success' : 'text-error' %>">
+                <%= log.successful ? "Success" : "Failed" %>
+              </span>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+  <% else %>
+    <div class="max-w-xl mx-auto text-center mt-20">
+      <h1 class="text-4xl font-bold text-primary mb-4">Welcome!</h1>
+      <p class="text-lg text-base-content/80 mb-6">Please sign in to view your dashboard.</p>
+      <%= link_to "Login", new_user_session_path, class: "bg-primary text-primary-content px-6 py-2 rounded hover:bg-primary-focus" %>
+    </div>
+  <% end %>
+</div>
+
