@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_02_084727) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_02_081732) do
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "account_number", null: false
@@ -75,7 +75,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_084727) do
   end
 
   add_foreign_key "accounts", "users"
-  add_foreign_key "loans", "users", column: "account_id"
+  add_foreign_key "loans", "accounts"
   add_foreign_key "login_logs", "users"
   add_foreign_key "transactions", "accounts", column: "from_id"
   add_foreign_key "transactions", "accounts", column: "to_id"

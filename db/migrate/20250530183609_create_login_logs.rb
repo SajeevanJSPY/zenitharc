@@ -4,7 +4,7 @@ class CreateLoginLogs < ActiveRecord::Migration[8.0]
       t.references :user, null: false, foreign_key: true
       t.string :ip_address, null: false
       t.text :user_agent, null: false
-      t.boolean :successful
+      t.boolean :successful, null: false, default: false
       t.datetime :logged_in_at, null: false
 
       t.timestamps
