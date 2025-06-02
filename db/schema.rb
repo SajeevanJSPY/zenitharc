@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_01_054323) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_02_084727) do
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "account_number", null: false
@@ -21,6 +21,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_054323) do
     t.datetime "updated_at", null: false
     t.index ["account_number"], name: "index_accounts_on_account_number", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "loans", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.decimal "principal_amount", null: false
+    t.decimal "interest_rate", null: false
+    t.integer "term_months", null: false
+    t.string "status", null: false
+    t.datetime "approved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_loans_on_account_id"
   end
 
   create_table "login_logs", force: :cascade do |t|
@@ -63,6 +75,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_054323) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "loans", "users", column: "account_id"
   add_foreign_key "login_logs", "users"
   add_foreign_key "transactions", "accounts", column: "from_id"
   add_foreign_key "transactions", "accounts", column: "to_id"
