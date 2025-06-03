@@ -1,0 +1,64 @@
+<div class="flex items-center justify-center bg-base-200 px-4">
+  <div class="w-full max-w-md bg-base-100 p-8 rounded-lg shadow border border-base-300 my-20">
+    <h2 class="text-2xl font-bold text-primary text-center mb-6">Edit Account</h2>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div class="alert alert-info mb-4">
+          <span>Your email is currently unconfirmed. A confirmation email was sent to <strong><%= resource.unconfirmed_email %></strong>.</span>
+        </div>
+      <% end %>
+
+      <!-- Full Name (if used in your model) -->
+      <div class="mb-4">
+        <%= f.label :full_name, class: "block text-sm font-medium text-base-content mb-1" %>
+        <%= f.text_field :full_name, class: "input input-bordered w-full", required: true %>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <%= f.label :email, class: "block text-sm font-medium text-base-content mb-1" %>
+        <%= f.email_field :email, class: "input input-bordered w-full", required: true %>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <%= f.label :password, class: "block text-sm font-medium text-base-content mb-1" %>
+        <%= f.password_field :password, class: "input input-bordered w-full", autocomplete: "new-password" %>
+        <small class="text-xs text-base-content">Leave blank if you don't want to change it</small>
+      </div>
+
+      <!-- Password confirmation -->
+      <div class="mb-4">
+        <%= f.label :password_confirmation, class: "block text-sm font-medium text-base-content mb-1" %>
+        <%= f.password_field :password_confirmation, class: "input input-bordered w-full", autocomplete: "new-password" %>
+      </div>
+
+      <!-- Current password -->
+      <div class="mb-4">
+        <%= f.label :current_password, "Current Password", class: "block text-sm font-medium text-base-content mb-1" %>
+        <%= f.password_field :current_password, class: "input input-bordered w-full", autocomplete: "current-password", required: true %>
+        <small class="text-xs text-base-content">We need your current password to confirm your changes</small>
+      </div>
+
+      <div class="flex justify-between items-center mt-6">
+        <%= f.submit "Update", class: "btn btn-primary w-full" %>
+      </div>
+    <% end %>
+
+    <hr class="my-6 border-base-300">
+
+    <!-- Cancel account section -->
+    <h3 class="text-sm text-error font-semibold mb-2">Danger Zone</h3>
+    <%= button_to "Cancel my account",
+      registration_path(resource_name),
+      data: { confirm: "Are you sure you want to cancel your account?" },
+      method: :delete,
+      class: "btn btn-error btn-outline w-full" %>
+
+    <div class="text-center mt-4">
+      <%= link_to "Back", root_path, class: "text-sm text-primary hover:underline" %>
+    </div>
+  </div>
+</div>
+

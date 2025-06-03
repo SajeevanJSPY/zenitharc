@@ -1,0 +1,32 @@
+<div class="flex items-center justify-center bg-base-200">
+  <div class="w-full max-w-md p-8 bg-base-100 rounded-lg shadow-lg border border-base-300 my-20">
+    <h2 class="text-2xl font-bold text-center text-primary mb-6">Sign In</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="mb-4">
+        <%= f.label :email, class: "block mb-1 text-sm font-medium text-base-content" %>
+        <%= f.email_field :email, autofocus: true, required: true, class: "input input-bordered w-full" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :password, class: "block mb-1 text-sm font-medium text-base-content" %>
+        <%= f.password_field :password, autocomplete: "current-password", required: true, class: "input input-bordered w-full" %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <div class="mb-4 flex items-center">
+          <%= f.check_box :remember_me, class: "checkbox checkbox-primary mr-2" %>
+          <%= f.label :remember_me, class: "text-sm text-base-content" %>
+        </div>
+      <% end -%>
+
+      <%= f.submit "Sign In", class: "btn btn-primary w-full" %>
+    <% end %>
+
+    <div class="mt-4 text-center">
+      <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-sm text-primary hover:underline block" %>
+      <%= link_to "Don't have an account? Sign up", new_registration_path(resource_name), class: "text-sm text-primary hover:underline block mt-2" %>
+    </div>
+  </div>
+</div>
+

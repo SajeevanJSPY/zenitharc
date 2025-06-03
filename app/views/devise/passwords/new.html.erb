@@ -1,0 +1,23 @@
+<div class="flex items-center justify-center bg-base-200 px-4">
+  <div class="w-full max-w-md bg-base-100 p-8 rounded-lg shadow border border-base-300 my-20">
+    <h2 class="text-2xl font-bold text-center text-primary mb-6">Forgot Your Password?</h2>
+
+    <p class="text-sm text-base-content mb-4 text-center">
+      Enter your email and we’ll send you a password reset link.
+    </p>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name)) do |f| %>
+      <div class="mb-4">
+        <%= f.label :email, class: "block mb-1 text-sm font-medium text-base-content" %>
+        <%= f.email_field :email, autofocus: true, required: true, class: "input input-bordered w-full" %>
+      </div>
+
+      <%= f.submit "Send Reset Instructions", class: "btn btn-primary w-full mb-4" %>
+    <% end %>
+
+    <div class="text-center">
+      <%= link_to "Back to Sign In", new_session_path(resource_name), class: "text-sm text-primary hover:underline" %>
+    </div>
+  </div>
+</div>
+
