@@ -8,7 +8,7 @@
     <ul class="menu menu-horizontal px-1 text-base">
       <li><%= link_to 'Arc', root_path, class: "hover:text-primary" %></li>
       <li><%= link_to 'Store', root_path, class: "hover:text-primary" %></li>
-      <li><%= link_to 'Dashboard', root_path, class: "hover:text-primary" %></li>
+      <li><%= link_to 'Dashboard', home_dashboard_path, class: "hover:text-primary" %></li>
     </ul>
   </div>
 
@@ -26,9 +26,31 @@
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-base-content">
         <li><%= link_to 'Arc', root_path, class: "hover:text-primary" %></li>
         <li><%= link_to 'Store', root_path, class: "hover:text-primary" %></li>
-        <li><%= link_to 'Dashboard', root_path, class: "hover:text-primary" %></li>
+        <li><%= link_to 'Dashboard', home_dashboard_path, class: "hover:text-primary" %></li>
       </ul>
     </div>
   </div>
-</div>
 
+  <div class="mx-3 flex-none gap-2">
+    <% if user_signed_in? %>
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full bg-neutral text-neutral-content flex items-center justify-center">
+            <%= current_user.email.upcase %>
+          </div>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+          <li><span class="font-semibold px-2 py-1">Hi, <%= current_user.email %>!</span></li>
+          <li>
+            <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-outline btn-error" %>
+          </li>
+        </ul>
+      </div>
+    <% else %>
+      <div class="flex gap-2">
+        <%= link_to "Sign In", new_user_session_path, class: "btn btn-sm btn-outline btn-primary" %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-sm btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
