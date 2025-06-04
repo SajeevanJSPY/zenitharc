@@ -5,19 +5,16 @@ RSpec.describe Transaction, type: :model do
     @user1 = User.create(
       email: "user1@begins.rmb",
       password: "useruser1",
-      role: "customer",
       full_name: "user user1"
     )
     @user2 = User.create(
       email: "user2@begins.rmb",
       password: "useruser2",
-      role: "customer",
       full_name: "user user2"
     )
     @user3 = User.create(
       email: "user3@begins.rmb",
       password: "useruser3",
-      role: "customer",
       full_name: "user user3"
     )
     @user1.save!

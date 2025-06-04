@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe "validations" do
     context "when creating a valid user" do
-      it "is valid with minimum required fields and default role" do
+      it "is valid with minimum required fields" do
         user = User.new(
           email: "user@begins.rmb",
           password: "useruser1",
@@ -20,7 +20,6 @@ RSpec.describe User, type: :model do
         expect(user.reset_password_token).to be_nil
         expect(user.reset_password_sent_at).to be_nil
         expect(user.remember_created_at).to be_nil
-        expect(user).to be_customer_role
       end
     end
 

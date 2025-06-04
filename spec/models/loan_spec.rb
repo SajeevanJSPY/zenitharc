@@ -5,7 +5,6 @@ RSpec.describe Loan, type: :model do
     @user1 = User.create!(
       email: "user1@begins.rmb",
       password: "useruser1",
-      role: "customer",
       full_name: "user user1"
     )
     @account1 = Account.create!(
