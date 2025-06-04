@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root "home#index"
   get "home/dashboard"
   devise_for :users
+
+  post "/validate_transaction/:id", to: "transactions#validate", as: :validate_transaction
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

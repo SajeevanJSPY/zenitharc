@@ -20,7 +20,10 @@
             <thead class="bg-base-300">
               <tr>
                 <th class="px-4 py-2 text-left">ID</th>
+                <th class="px-4 py-2 text-left">From</th>
+                <th class="px-4 py-2 text-left">To</th>
                 <th class="px-4 py-2 text-left">Amount</th>
+                <th class="px-4 py-2 text-left">Transaction Type</th>
                 <th class="px-4 py-2 text-left">Status</th>
                 <th class="px-4 py-2 text-left">Actions</th>
               </tr>
@@ -29,18 +32,20 @@
               <% @transactions.each do |t| %>
                 <tr>
                   <td class="px-4 py-2"><%= t.id %></td>
+                  <td class="px-4 py-2"><%= t.from.user.full_name %><span></span> #<%= t.from_id %></td>
+                  <td class="px-4 py-2"><%= t.to.user.full_name %><span></span> #<%= t.to_id %></td>
                   <td class="px-4 py-2"><%= t.amount %></td>
+                  <td class="px-4 py-2"><%= t.transaction_type %></td>
                   <td class="px-4 py-2"><%= t.status %></td>
                   <td class="px-4 py-2">
-                    <button class="px-3 py-1 bg-primary text-primary-content rounded">Mark</button>
+                    <%= button_to "Validate", validate_transaction_path(t.id), method: :post, form: { data: { turbo_stream: true } }, class: "px-3 py-1 bg-primary text-primary-content rounded" %>
                   </td>
                 </tr>
               <% end %>
-              <!-- More rows dynamically rendered here -->
             </tbody>
           </table>
         <% else %>
-          <p>there is transactions to view</p>
+          <p>There is transactions to view</p>
         <% end %>
       </div>
     </section>
@@ -48,14 +53,32 @@
     <!-- Account Details -->
     <section id="accounts">
       <h3 class="text-2xl font-semibold mb-4">Account Details</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-base-100 p-4 shadow rounded">
-          <p class="font-bold">Account Id</p>
-          <p><%= @account.id %></p>
-          <p class="font-bold mt-2">Balance:</p>
-          <p><%= @account.balance %></p>
-        </div>
-        <!-- More cards -->
+
+      <div class="overflow-x-auto">
+        <% if @users.any? %>
+          <table class="min-w-full table-auto border border-base-300">
+            <thead class="bg-base-300">
+              <tr>
+                <th class="px-4 py-2 text-left">ID</th>
+                <th class="px-4 py-2 text-left">Full Name</th>
+                <th class="px-4 py-2 text-left">Email</th>
+                <th class="px-4 py-2 text-left">Role</th>
+              </tr>
+            </thead>
+            <tbody class="bg-base-100">
+              <% @users.each do |t| %>
+                <tr>
+                  <td class="px-4 py-2"><%= t.id %></td>
+                  <td class="px-4 py-2"><%= t.full_name %></td>
+                  <td class="px-4 py-2"><%= t.email %></td>
+                  <td class="px-4 py-2"><%= t.role %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>There is users to view</p>
+        <% end %>
       </div>
     </section>
 
