@@ -9,11 +9,12 @@
         </div>
       <% end %>
 
-      <!-- Full Name (if used in your model) -->
-      <div class="mb-4">
-        <%= f.label :full_name, class: "block text-sm font-medium text-base-content mb-1" %>
-        <%= f.text_field :full_name, class: "input input-bordered w-full", required: true %>
-      </div>
+      <% if @is_customer_account %>
+        <div class="mb-4">
+          <%= f.label :full_name, class: "block text-sm font-medium text-base-content mb-1" %>
+          <%= f.text_field :full_name, class: "input input-bordered w-full", required: true %>
+        </div>
+      <% end %>
 
       <!-- Email -->
       <div class="mb-4">

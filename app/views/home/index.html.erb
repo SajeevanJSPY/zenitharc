@@ -44,12 +44,91 @@
         <% end %>
       </div>
     </div>
+  <% elsif arc_account_signed_in? %>
+<div class="bg-base-200 flex items-center justify-center px-4 py-8">
+  <div class="w-full max-w-3xl my-20">
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-primary text-2xl mb-2">
+          Welcome, <%= current_arc_account.email %>!
+        </h2>
+        <p class="text-base-content mb-4">Here are your account details:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Account Number:</span><br><%= current_arc_account.account_number %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Role:</span><br><%= current_arc_account.role.presence || "N/A" %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Sign-in Count:</span><br><%= current_arc_account.sign_in_count %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Current Sign-in IP:</span><br><%= current_arc_account.current_sign_in_ip %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Last Sign-in IP:</span><br><%= current_arc_account.last_sign_in_ip %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Confirmed At:</span><br><%= current_arc_account.confirmed_at&.strftime("%B %d, %Y %H:%M") || "Not confirmed" %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Current Sign-in Time:</span><br><%= current_arc_account.current_sign_in_at&.strftime("%B %d, %Y %H:%M") %></p>
+          </div>
+
+          <div class="bg-base-300 rounded-xl p-4">
+            <p><span class="font-semibold text-base-content">Last Sign-in Time:</span><br><%= current_arc_account.last_sign_in_at&.strftime("%B %d, %Y %H:%M") %></p>
+          </div>
+        </div>
+
+        <div class="mt-6 text-right">
+          <%= button_to "Logout", destroy_arc_account_session_path, method: :delete, class: "btn btn-error btn-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <% else %>
-    <div class="max-w-xl mx-auto text-center mt-20">
+    <div class="max-w-xl mx-auto text-center mt-10">
       <h1 class="text-4xl font-bold text-primary mb-4">Welcome!</h1>
-      <p class="text-lg text-base-content/80 mb-6">Please sign in to view your dashboard.</p>
-      <%= link_to "Login", new_user_session_path, class: "bg-primary text-primary-content px-6 py-2 rounded hover:bg-primary-focus" %>
     </div>
+
+    <div class="flex items-center justify-center bg-base-200 px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl w-full mt-10 mb-20">
+
+        <!-- User Login -->
+        <a href="<%= new_user_session_path %>" class="card bg-base-100 shadow-xl hover:shadow-2xl transition">
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-2xl">Login as User</h2>
+            <p class="text-base-content">Access user dashboard and personal services.</p>
+            <div class="card-actions mt-4">
+              <button class="btn btn-primary w-full">Login</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- ArcAccount Login -->
+        <a href="<%= new_arc_account_session_path %>" class="card bg-base-100 shadow-xl hover:shadow-2xl transition">
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-2xl">Login as ArcAccount</h2>
+            <p class="text-base-content">Access ArcAccount features and admin tools.</p>
+            <div class="card-actions mt-4">
+              <button class="btn btn-accent w-full">Login</button>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+
   <% end %>
 </div>

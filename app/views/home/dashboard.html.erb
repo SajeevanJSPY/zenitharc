@@ -1,9 +1,7 @@
 <% if user_signed_in? %>
-  <% if @is_admin %>
-    <%= render 'admin_dashboard' %>
-  <% else %>
-    <%= render 'customer_dashboard' %>
-  <% end %>
+  <%= render 'customer_dashboard' %>
+<% elsif arc_account_signed_in? %>
+  <%= render 'admin_dashboard' %>
 <% else %>
   <div class="max-w-xl mx-auto text-center mt-20">
     <h1 class="text-4xl font-bold text-primary mb-4">Welcome to the Dashboard!</h1>

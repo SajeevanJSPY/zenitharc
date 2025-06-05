@@ -2,8 +2,12 @@ Rails.application.routes.draw do
   root "home#index"
   get "home/dashboard"
 
-  devise_for :users, class_name: "Customer::User", path: ""
-  devise_for :arc_accounts, class_name: "Arc::ArcAccount", path: "arc"
+  devise_for :users, class_name: "Customer::User", path: "", controllers: {
+    sessions: "users/sessions"
+  }
+  devise_for :arc_accounts, class_name: "Arc::ArcAccount", path: "arc", controllers: {
+    sessions: "arc_accounts/sessions"
+  }
 
   post "/validate_transaction/:id", to: "transactions#validate", as: :validate_transaction
 

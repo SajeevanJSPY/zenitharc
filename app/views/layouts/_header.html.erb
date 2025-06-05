@@ -46,6 +46,20 @@
           </li>
         </ul>
       </div>
+    <% elsif arc_account_signed_in? %>
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full bg-neutral text-neutral-content flex items-center justify-center">
+            <%= current_arc_account.email.upcase %>
+          </div>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+          <li><span class="font-semibold px-2 py-1">Hi, <%= current_arc_account.email %>!</span></li>
+          <li>
+            <%= button_to "Log Out", destroy_arc_account_session_path, method: :delete, class: "btn btn-outline btn-error" %>
+          </li>
+        </ul>
+      </div>
     <% else %>
       <div class="flex gap-2">
         <%= link_to "Sign In", new_user_session_path, class: "btn btn-sm btn-outline btn-primary" %>
