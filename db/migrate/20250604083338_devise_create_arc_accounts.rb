@@ -32,8 +32,8 @@ class DeviseCreateArcAccounts < ActiveRecord::Migration[8.0]
       t.string   :unlock_token # Only if unlock strategy is :email or :both
       t.datetime :locked_at
 
-      t.string :role
-      t.string :account_number
+      t.string :role, null: false
+      t.string :account_number, null: false
 
       t.timestamps null: false
     end

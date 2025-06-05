@@ -41,8 +41,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_083338) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.string "role"
-    t.string "account_number"
+    t.string "role", null: false
+    t.string "account_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_number"], name: "index_arc_accounts_on_account_number", unique: true

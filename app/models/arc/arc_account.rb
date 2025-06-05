@@ -1,21 +1,22 @@
 module Arc
   class ArcAccount < ApplicationRecord
+    validates :role, presence: true
+    validates :account_number, presence: true, uniqueness: true
+
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :validatable
 
-    validates :role, :account_number, presence: true
+    enum :role, {
+      superadmin: "superadmin",
+      admin: "admin",
+      manager: "manager",
+      accountant: "accountant",
+      staff: "staff"
+    }, suffix: true
 
-    enum :role, [
-      :superadmin,
-      :admin,
-      :manager,
-      :accountant,
-      :staff
-    ], suffix: true
-
-    after_initialize :set_default_role, if: :new_record?
+    before_validation :set_default_role, if: :new_record?
 
     private
     def set_default_role
