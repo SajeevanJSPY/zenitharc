@@ -10,37 +10,23 @@
 
   <!-- Main Content -->
   <main class="flex-1 p-6 space-y-12">
-    <!-- My Transactions -->
-    <section id="transactions">
-      <h3 class="text-2xl font-semibold mb-4">Transactions</h3>
-      <div class="overflow-x-auto">
-        <% if @transactions.any? %>
-          <table class="min-w-full table-auto border border-base-300">
-            <thead class="bg-base-300">
-              <tr>
-                <th class="px-4 py-2 text-left">ID</th>
-                <th class="px-4 py-2 text-left">Amount</th>
-                <th class="px-4 py-2 text-left">Status</th>
-                <th class="px-4 py-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="bg-base-100">
-              <% @transactions.each do |t| %>
-                <tr>
-                  <td class="px-4 py-2"><%= t.id %></td>
-                  <td class="px-4 py-2"><%= t.amount %></td>
-                  <td class="px-4 py-2"><%= t.status %></td>
-                  <td class="px-4 py-2">
-                    <button class="px-3 py-1 bg-primary text-primary-content rounded">Mark</button>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <p class="text-xl text-error font-semibold">There is no transactions to view</p>
+    <section id="accounts">
+      <h1 class="text-3xl font-bold mb-6 text-primary">Your Accounts & Transactions</h1>
+      <% if @accounts.any? %>
+        <% @accounts.each do |acc| %>
+          <div class="mb-8 bg-base-200 rounded-2xl p-4 shadow-md border border-base-300">
+            <div class="mb-4">
+              <h2 class="text-xl font-semibold text-secondary">Account #<%= acc.account_number %></h2>
+              <p class="text-sm text-base-content/70">Account Type: <%= acc.account_type %></p>
+              <p class="text-sm text-base-content/70">Balance: <%= acc.balance %></p>
+              <p class="text-sm text-base-content/70">Status: <%= acc.status %></p>
+            </div>
+            <%= render 'transactions', transactions: @transactions[acc.id] %>
+          </div>
         <% end %>
-      </div>
+      <% else %>
+        <p class="text-xl text-error font-semibold">There is no accounts belong to the user</p>
+      <% end %>
     </section>
 
     <!-- Make Transaction -->

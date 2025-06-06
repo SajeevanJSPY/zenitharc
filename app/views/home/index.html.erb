@@ -21,7 +21,7 @@
       <!-- Transactions -->
       <div class="bg-base-100 rounded-lg shadow p-4 mb-6 border-l-4 border-accent">
         <h2 class="text-xl font-semibold text-secondary mb-2">Recent Transactions</h2>
-        <% @transactions.first(10).each do |tx| %>
+        <% @transactions.each do |tx| %>
           <div class="border-b border-base-300 py-2">
             <p><strong>From:</strong> <%= tx.from_id %> → <strong>To:</strong> <%= tx.to_id %></p>
             <p><strong>Amount:</strong> $<%= number_with_precision(tx.amount, precision: 2) %> - <%= tx.transaction_type %></p>

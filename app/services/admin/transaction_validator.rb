@@ -6,11 +6,11 @@ module Admin
 
     def call
       return fail!("Not pending") unless @transaction.pending_status?
-      from = Account.find_by(id: @transaction.from_id)
+      from = Customer::Account.find_by(id: @transaction.from_id)
       return fail!("transfer failed") unless from.nil?
 
       if @transaction.transfer_transaction_type?
-        to = Account.find_by(id: @transaction.to_id)
+        to = Customer::Account.find_by(id: @transaction.to_id)
         if to.nil? || @transaction.amount > from.balance
           return fail!("Transfer failed")
         end
