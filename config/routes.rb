@@ -1,39 +1,83 @@
 Rails.application.routes.draw do
   root "home#index"
-  get "home/dashboard"
+  get "up" => "rails/health#show", as: :rails_health_check
 
   namespace :customer do
     devise_for :users,
       class_name: "Customer::User",
       path: "",
+      path_names: {
+         sign_in:  "login",
+         sign_out: "logout",
+         sign_up:  "register",
+         password: "password"
+      },
       controllers: {
-        sessions: "customer/sessions"
+        registrations: "customer/devise/registrations",
+        sessions: "customer/devise/sessions",
+        passwords: "customer/devise/passwords",
+        confirmations: "customer/devise/confirmations",
+        unlocks: "customer/devise/unlocks"
       }
-      post "/make_transaction", to: "transactions#make_transaction", as: :make_transaction
+
+    devise_scope :user do
+      get    "login",     to: "devise/sessions#new",     as: :login
+      post   "login",     to: "devise/sessions#create"
+      delete "logout",    to: "devise/sessions#destroy", as: :logout
+
+      get    "register",  to: "devise/registrations#new",    as: :register
+      post   "register",  to: "devise/registrations#create"
+
+      get    "password/new", to: "devise/passwords#new",    as: :new_password
+      post   "password",     to: "devise/passwords#create", as: :password
+    end
+
+    # Pages
+    get "/", to: "home#index", as: :home
+    get "/dashboard", to: "home#dashboard", as: :dashboard
+
+    # Transactions
+    post "/transactions", to: "transactions#create", as: :transactions
   end
 
   namespace :arc do
     devise_for :arc_accounts,
       class_name: "Arc::ArcAccount",
-      path: "arc",
+      path: "",
+      path_names: {
+         sign_in:  "login",
+         sign_out: "logout",
+         sign_up:  "register",
+         password: "password"
+      },
       controllers: {
-        sessions: "arc/sessions"
+        registrations: "arc/devise/registrations",
+        sessions: "arc/devise/sessions",
+        passwords: "arc/devise/passwords",
+        confirmations: "arc/devise/confirmations",
+        unlocks: "arc/devise/unlocks"
       }
 
-      post "/finalize_transaction/:id", to: "transactions#finalize_transaction", as: :finalize_transaction
-      post "/assign_role", to: "roles#assign", as: :assign_role
+    devise_scope :arc_account do
+      get    "login",     to: "devise/sessions#new",     as: :login
+      post   "login",     to: "devise/sessions#create"
+      delete "logout",    to: "devise/sessions#destroy", as: :logout
+
+      get    "register",  to: "devise/registrations#new",    as: :register
+      post   "register",  to: "registrations#create"
+
+      get    "password/new", to: "passwords#new",    as: :new_password
+      post   "password",     to: "passwords#create", as: :password
+    end
+
+    # Pages
+    get "/", to: "home#index", as: :home
+    get "/dashboard", to: "home#dashboard", as: :dashboard
+
+    # Transactions
+    post "/transactions/:id/finalize", to: "transactions#finalize", as: :finalize_transaction
+
+    # Roles
+    post "/roles/assign", to: "roles#assign", as: :assign_role
   end
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
