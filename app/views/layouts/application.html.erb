@@ -28,34 +28,23 @@
   </head>
 
   <body class="min-h-screen max-w-full flex flex-col">
-    <div class="fixed top-17 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
-      <% flash.each do |type, message| %>
-        <div class="alert shadow-lg
-                    <%= flash_type_to_daisyui(type) %>
-                    animate-fade-in-down transition duration-300 ease-out">
-          <div>
-            <span><%= message %></span>
-          </div>
-        </div>
-      <% end %>
-    </div>
-
-    <%= render 'layouts/header' %>
+    <%= render 'layouts/application/flash' %>
+    <%= render 'layouts/application/header' %>
     <main class="flex-grow">
       <%= yield %>
     </main>
 
-    <%= render 'layouts/footer' %>
+    <%= render 'layouts/application/footer' %>
   </body>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => {
-        document.querySelectorAll('.alert').forEach(el => {
-          el.style.transition = "opacity 0.5s ease-out";
-          el.style.opacity = "0";
-          setTimeout(() => el.remove(), 500);
-        });
-      }, 4000);
+      document.querySelectorAll("[data-flash]").forEach((el) => {
+        setTimeout(() => {
+          el.classList.add("opacity-0");
+          setTimeout(() => el.remove(), 500); // match transition
+        }, 4000); // 4 seconds
+      });
     });
   </script>
 </html>

@@ -1,3 +1,16 @@
+<div class="max-w-7xl mx-auto mt-10 px-4">
+  <h1 class="text-3xl font-bold text-primary mb-6">Customer Dashboard</h1>
+
+  <!-- Accounts Summary -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <% @accounts.each do |account| %>
+      <div class="rounded-xl p-5 bg-accent text-accent-content shadow">
+        <p class="mt-1 text-lg">Balance: $<%= account.balance %></p>
+        <p class="text-sm opacity-80 mt-2">Account ID: <%= account.id %></p>
+      </div>
+    <% end %>
+  </div>
+
 <div class="flex flex-col md:flex-row">
   <!-- Sidebar -->
   <aside class="w-full md:w-64 bg-base-100 p-4 shadow-md min-h-screen">
@@ -8,7 +21,6 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
   <main class="flex-1 p-6 space-y-12">
     <section id="accounts">
       <h1 class="text-3xl font-bold mb-6 text-primary">Your Accounts & Transactions</h1>

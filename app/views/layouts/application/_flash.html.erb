@@ -1,0 +1,20 @@
+<div id="flash-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4 space-y-2">
+  <% flash.each do |type, message| %>
+    <div
+      class="alert transition-opacity duration-500 opacity-100 shadow-lg text-sm sm:text-base <%= flash_type_to_daisyui(type) %>"
+      data-flash
+    >
+      <div class="flex-1">
+        <span><%= message %></span>
+      </div>
+      <button
+        type="button"
+        class="btn btn-sm btn-ghost absolute right-5"
+        onclick="this.closest('.alert').remove()"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+    </div>
+  <% end %>
+</div>
