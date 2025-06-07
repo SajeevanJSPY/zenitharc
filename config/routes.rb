@@ -2,14 +2,27 @@ Rails.application.routes.draw do
   root "home#index"
   get "home/dashboard"
 
-  devise_for :users, class_name: "Customer::User", path: "", controllers: {
-    sessions: "users/sessions"
-  }
-  devise_for :arc_accounts, class_name: "Arc::ArcAccount", path: "arc", controllers: {
-    sessions: "arc_accounts/sessions"
-  }
+  namespace :customer do
+    devise_for :users,
+      class_name: "Customer::User",
+      path: "",
+      controllers: {
+        sessions: "customer/sessions"
+      }
+      post "/make_transaction", to: "transactions#make_transaction", as: :make_transaction
+  end
 
-  post "/validate_transaction/:id", to: "transactions#validate", as: :validate_transaction
+  namespace :arc do
+    devise_for :arc_accounts,
+      class_name: "Arc::ArcAccount",
+      path: "arc",
+      controllers: {
+        sessions: "arc/sessions"
+      }
+
+      post "/finalize_transaction/:id", to: "transactions#finalize_transaction", as: :finalize_transaction
+      post "/assign_role", to: "roles#assign", as: :assign_role
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
