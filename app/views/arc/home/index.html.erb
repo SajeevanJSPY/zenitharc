@@ -1,35 +1,42 @@
-<% if arc_signed_in? %>
-  <div class="max-w-3xl mx-auto mt-16 p-6 bg-base-200 rounded-2xl shadow-md">
-    <h1 class="text-3xl font-bold mb-4 text-center">Welcome, <%= current_arc.email %> 👋</h1>
+<div class="bg-base-200 py-10 px-6">
+  <div class="my-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="text-4xl font-bold text-primary mb-4">Welcome to the Arc Admin Panel</h1>
+      <p class="text-base-content/70 mb-8">
+        Oversee users, roles, and transaction finalization from a centralized dashboard.
+      </p>
 
-    <div class="grid gap-4 md:grid-cols-2 text-sm md:text-base">
-      <div class="p-4 bg-base-100 rounded-xl shadow">
-        <p><span class="font-semibold">Account Number:</span> <%= current_arc.account_number %></p>
-        <p><span class="font-semibold">Role:</span> <%= current_arc.role.humanize %></p>
-        <p><span class="font-semibold">Created At:</span> <%= l(current_arc.created_at, format: :long) %></p>
-      </div>
-
-      <div class="p-4 bg-base-100 rounded-xl shadow">
-        <p class="font-semibold mb-2">Actions</p>
-        <div class="flex flex-col gap-2">
-          <%= link_to "Go to Dashboard", arc_dashboard_path, class: "btn btn-primary w-full" %>
-          <%= button_to "Logout", arc_logout_path, method: :delete, class: "btn btn-error w-full" %>
+      <% if arc_signed_in? %>
+        <div class="mb-6">
+          <p class="text-sm text-base-content/60">
+            Logged in as <strong><%= current_arc_arc_account.email %></strong>
+          </p>
         </div>
+        <div class="flex justify-center gap-4">
+          <%= link_to "Go to Dashboard", arc_dashboard_path, class: "btn btn-primary" %>
+          <%= button_to "Logout", arc_logout_path, method: :delete, class: "btn btn-outline btn-error" %>
+        </div>
+      <% else %>
+        <div class="space-x-4">
+          <%= link_to "Login", arc_login_path, class: "btn btn-primary" %>
+          <%= link_to "Register", arc_register_path, class: "btn btn-outline btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-xl bg-base-100 shadow-md">
+        <h2 class="text-xl font-semibold mb-2 text-primary">Manage Roles</h2>
+        <p class="text-sm text-base-content/70">Assign and manage roles for Arc and Customer accounts securely.</p>
+      </div>
+      <div class="p-6 rounded-xl bg-base-100 shadow-md">
+        <h2 class="text-xl font-semibold mb-2 text-secondary">User Monitoring</h2>
+        <p class="text-sm text-base-content/70">Access and analyze user activities with real-time data.</p>
+      </div>
+      <div class="p-6 rounded-xl bg-base-100 shadow-md">
+        <h2 class="text-xl font-semibold mb-2 text-accent">Transaction Control</h2>
+        <p class="text-sm text-base-content/70">Finalize or inspect transactions to ensure system integrity.</p>
       </div>
     </div>
   </div>
-<% else %>
-  <div class="flex items-center justify-center bg-base-200 px-4">
-    <div class="grid grid-cols-1 max-w-3xl w-full mt-10 mb-20">
-      <a href="<%= arc_login_path %>" class="card bg-base-100 shadow-xl hover:shadow-2xl transition">
-        <div class="card-body items-center text-center">
-          <h2 class="card-title text-2xl">Login as ArcAccount</h2>
-          <p class="text-base-content">Access ArcAccount features and admin tools.</p>
-          <div class="card-actions mt-4">
-            <button class="btn btn-primary w-full">Login</button>
-          </div>
-        </div>
-      </a>
-    </div>
-  </div>
-<% end %>
+</div>

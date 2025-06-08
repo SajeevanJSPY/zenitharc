@@ -8,8 +8,6 @@ module Arc
 
       # GET /resource/sign_in
       def new
-        @is_arc_account = true
-        @is_customer_account = false
         super
       end
 

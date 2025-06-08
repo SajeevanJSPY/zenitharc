@@ -1,133 +1,46 @@
-<div class="min-h-screen bg-base-200 text-base-content p-6">
-  <% if customer_signed_in? %>
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl font-bold text-primary mb-4">
-        Welcome, <%= current_customer.full_name %>!
-      </h1>
+<div class="bg-base-100 text-base-content">
+  <div class="max-w-4xl mx-auto px-4 py-16 text-center">
+    <h1 class="text-4xl font-bold text-primary mb-4">Welcome to ZenithArc</h1>
+    <p class="text-lg text-base-content/70 mb-8">
+      A secure, modular platform for managing customer and arc account operations with ease.
+    </p>
 
-      <!-- Accounts -->
-      <div class="bg-base-100 rounded-lg shadow p-4 mb-6 border-l-4 border-primary">
-        <h2 class="text-xl font-semibold text-secondary mb-2">Your Accounts</h2>
-        <% @accounts.each do |account| %>
-          <div class="mb-3">
-            <p><strong>Account #:</strong> <%= account.account_number %></p>
-            <p><strong>Type:</strong> <%= account.account_type %></p>
-            <p><strong>Balance:</strong> $<%= number_with_precision(account.balance, precision: 2) %></p>
-            <p><strong>Status:</strong> <%= account.status.capitalize %></p>
-          </div>
+    <% if !customer_signed_in? && !arc_signed_in? %>
+      <div class="flex justify-center gap-6">
+        <%= link_to "Customer Login", customer_login_path,
+            class: "px-6 py-2 rounded-lg bg-primary text-primary-content hover:bg-primary-focus transition" %>
+
+        <%= link_to "Arc Login", arc_login_path,
+            class: "px-6 py-2 rounded-lg bg-secondary text-secondary-content hover:bg-secondary-focus transition" %>
+      </div>
+    <% end %>
+
+    <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+      <div class="p-6 bg-neutral text-neutral-content rounded-xl shadow-md hover:shadow-xl transition">
+        <h2 class="text-xl font-semibold mb-2">Customer Features</h2>
+        <ul class="list-disc list-inside text-sm text-neutral-content/80">
+          <li>Make secure transactions</li>
+          <li>Manage your accounts</li>
+          <li>Track transaction history</li>
+        </ul>
+        <% if customer_signed_in? %>
+          <%= link_to "Go to Dashboard", customer_dashboard_path,
+              class: "mt-2 inline-block px-4 py-2 rounded-md bg-primary text-primary-content hover:bg-primary-focus transition" %>
         <% end %>
       </div>
 
-      <!-- Transactions -->
-      <div class="bg-base-100 rounded-lg shadow p-4 mb-6 border-l-4 border-accent">
-        <h2 class="text-xl font-semibold text-secondary mb-2">Recent Transactions</h2>
-        <% @transactions.each do |tx| %>
-          <div class="border-b border-base-300 py-2">
-            <p><strong>From:</strong> <%= tx.from_id %> → <strong>To:</strong> <%= tx.to_id %></p>
-            <p><strong>Amount:</strong> $<%= number_with_precision(tx.amount, precision: 2) %> - <%= tx.transaction_type %></p>
-            <p><strong>Status:</strong> <%= tx.status.capitalize %> | <%= time_ago_in_words(tx.created_at) %> ago</p>
-          </div>
+      <div class="p-6 bg-accent text-accent-content rounded-xl shadow-md hover:shadow-xl transition">
+        <h2 class="text-xl font-semibold mb-2">Arc Admin Panel</h2>
+        <ul class="list-disc list-inside text-sm text-accent-content/80">
+          <li>Review and validate transactions</li>
+          <li>Assign roles to arc accounts</li>
+          <li>Monitor user activity</li>
+        </ul>
+        <% if arc_signed_in? %>
+          <%= link_to "Go to Dashboard", arc_dashboard_path,
+              class: "mt-2 inline-block px-4 py-2 rounded-md bg-secondary text-secondary-content hover:bg-secondary-focus transition" %>
         <% end %>
-      </div>
-
-      <!-- Login Logs -->
-      <div class="bg-base-100 rounded-lg shadow p-4 border-l-4 border-warning">
-        <h2 class="text-xl font-semibold text-secondary mb-2">Recent Logins</h2>
-        <% @login_logs.each do |log| %>
-          <div class="text-sm text-base-content/70 mb-2">
-            <p><%= log.logged_in_at.strftime("%b %d, %Y %I:%M %p") %> from <%= log.ip_address %> - 
-              <span class="<%= log.successful ? 'text-success' : 'text-error' %>">
-                <%= log.successful ? "Success" : "Failed" %>
-              </span>
-            </p>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% elsif arc_signed_in? %>
-<div class="bg-base-200 flex items-center justify-center px-4 py-8">
-  <div class="w-full max-w-3xl my-20">
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title text-primary text-2xl mb-2">
-          Welcome, <%= current_arc.email %>!
-        </h2>
-        <p class="text-base-content mb-4">Here are your account details:</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Account Number:</span><br><%= current_arc.account_number %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Role:</span><br><%= current_arc.role.presence || "N/A" %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Sign-in Count:</span><br><%= current_arc.sign_in_count %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Current Sign-in IP:</span><br><%= current_arc.current_sign_in_ip %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Last Sign-in IP:</span><br><%= current_arc.last_sign_in_ip %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Confirmed At:</span><br><%= current_arc.confirmed_at&.strftime("%B %d, %Y %H:%M") || "Not confirmed" %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Current Sign-in Time:</span><br><%= current_arc.current_sign_in_at&.strftime("%B %d, %Y %H:%M") %></p>
-          </div>
-
-          <div class="bg-base-300 rounded-xl p-4">
-            <p><span class="font-semibold text-base-content">Last Sign-in Time:</span><br><%= current_arc.last_sign_in_at&.strftime("%B %d, %Y %H:%M") %></p>
-          </div>
-        </div>
-
-        <div class="mt-6 text-right">
-          <%= button_to "Logout", arc_logout_path, method: :delete, class: "btn btn-error btn-sm" %>
-        </div>
       </div>
     </div>
   </div>
-</div>
-
-  <% else %>
-    <div class="max-w-xl mx-auto text-center mt-10">
-      <h1 class="text-4xl font-bold text-primary mb-4">Welcome!</h1>
-    </div>
-
-    <div class="flex items-center justify-center bg-base-200 px-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl w-full mt-10 mb-20">
-
-        <!-- User Login -->
-        <a href="<%= customer_login_path %>" class="card bg-base-100 shadow-xl hover:shadow-2xl transition">
-          <div class="card-body items-center text-center">
-            <h2 class="card-title text-2xl">Login as User</h2>
-            <p class="text-base-content">Access user dashboard and personal services.</p>
-            <div class="card-actions mt-4">
-              <button class="btn btn-primary w-full">Login</button>
-            </div>
-          </div>
-        </a>
-
-        <!-- ArcAccount Login -->
-        <a href="<%= arc_login_path %>" class="card bg-base-100 shadow-xl hover:shadow-2xl transition">
-          <div class="card-body items-center text-center">
-            <h2 class="card-title text-2xl">Login as ArcAccount</h2>
-            <p class="text-base-content">Access ArcAccount features and admin tools.</p>
-            <div class="card-actions mt-4">
-              <button class="btn btn-accent w-full">Login</button>
-            </div>
-          </div>
-        </a>
-
-      </div>
-    </div>
-
-  <% end %>
 </div>

@@ -11,8 +11,6 @@ module Customer
         if current_customer_user
           return
         end
-        @is_arc_account = false
-        @is_customer_account = true
         super
       end
 

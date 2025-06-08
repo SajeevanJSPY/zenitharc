@@ -22,7 +22,7 @@ module Arc
 
     def redirect_unless_signed_in
       unless arc_signed_in?
-        redirect_to root_path, alert: "Arc account is not signed in. Please log in before accessing the dashboard."
+        redirect_to arc_home_path, alert: "Arc account is not signed in. Please log in before accessing the dashboard."
       end
     end
 

@@ -1,33 +1,44 @@
-<% if current_customer %>
-  <div class="max-w-4xl mx-auto mt-10 px-4 text-center">
-    <h1 class="text-4xl font-bold text-primary mb-4">Welcome to Your Customer Portal</h1>
-    <p class="text-lg text-base-content mb-6">
-      Manage your accounts, view transaction history, and stay up to date with your finances.
-    </p>
+<div class="bg-base-200 py-10 px-6">
+  <div class="my-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="text-4xl font-bold text-primary mb-4">Welcome to the Customer Portal</h1>
+      <p class="text-base-content/70 mb-8">
+        Manage your accounts, track transactions, and stay in control of your financial activities.
+      </p>
 
-    <a href="<%= customer_dashboard_path %>" 
-       class="inline-block bg-primary text-primary-content px-6 py-3 rounded-lg font-semibold hover:bg-primary-focus transition">
-      Go to Dashboard
-    </a>
-    <div class="p-4 bg-base-100 rounded-xl shadow">
-      <p class="font-semibold mb-2">Actions</p>
-      <div class="flex flex-col gap-2">
-        <%= button_to "Logout", customer_logout_path, method: :delete, class: "btn btn-error w-full" %>
+      <% if customer_signed_in? %>
+        <div class="mb-6">
+          <p class="text-sm text-base-content/60">
+            Logged in as <strong><%= current_customer.email %></strong>
+          </p>
+        </div>
+        <div class="flex justify-center gap-4">
+          <%= link_to "Go to Dashboard", customer_dashboard_path, class: "btn btn-primary" %>
+          <%= button_to "Logout", customer_logout_path, method: :delete, class: "btn btn-outline btn-error" %>
+        </div>
+      <% else %>
+        <div class="space-x-4">
+          <%= link_to "Login", customer_login_path, class: "btn btn-primary" %>
+          <%= link_to "Register", customer_register_path, class: "btn btn-outline btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-xl bg-base-100 shadow-md">
+        <h2 class="text-xl font-semibold mb-2 text-primary">Manage Accounts</h2>
+        <p class="text-sm text-base-content/70">View and manage your linked accounts easily and securely.</p>
+      </div>
+      <div class="p-6 rounded-xl bg-base-100 shadow-md">
+        <h2 class="text-xl font-semibold mb-2 text-secondary">Transaction History</h2>
+        <p class="text-sm text-base-content/70">See recent transactions and monitor your financial activities.</p>
+      </div>
+      <div class="p-6 rounded-xl bg-base-100 shadow-md">
+        <h2 class="text-xl font-semibold mb-2 text-accent">Support & Help</h2>
+        <p class="text-sm text-base-content/70">Get assistance for any issues or inquiries you may have.</p>
       </div>
     </div>
   </div>
-<% else %>
-  <div class="flex items-center justify-center bg-base-200 px-4">
-    <div class="grid grid-cols-1 max-w-3xl w-full mt-10 mb-20">
-      <a href="<%= customer_login_path %>" class="card bg-base-100 shadow-xl hover:shadow-2xl transition">
-        <div class="card-body items-center text-center">
-          <h2 class="card-title text-2xl">Login as User</h2>
-          <p class="text-base-content">Access user dashboard and personal services.</p>
-          <div class="card-actions mt-4">
-            <button class="btn btn-primary w-full">Login</button>
-          </div>
-        </div>
-      </a>
-    </div>
-  </div>
-<% end %>
+</div>
+
+

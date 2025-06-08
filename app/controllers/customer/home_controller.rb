@@ -26,7 +26,7 @@ module Customer
 
     def redirect_unless_signed_in
       unless customer_signed_in?
-        redirect_to root_path, alert: "Customer account is not signed in. Please log in before accessing the dashboard."
+        redirect_to customer_home_path, alert: "Customer account is not signed in. Please log in before accessing the dashboard."
       end
     end
 
