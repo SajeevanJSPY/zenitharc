@@ -1,136 +1,66 @@
-<div class="max-w-7xl mx-auto mt-10 px-4">
-  <h1 class="text-3xl font-bold text-primary mb-8">Arc Admin Dashboard</h1>
+<div class="p-6 space-y-8">
+  <!-- Header -->
+  <div class="text-center">
+    <h1 class="text-3xl font-bold text-primary">Arc Admin Dashboard</h1>
+    <p class="text-gray-500">Monitor and manage platform activity</p>
+  </div>
 
-  <!-- Stats Section -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="rounded-xl p-6 bg-primary text-primary-content shadow">
-      <h2 class="text-xl font-semibold mb-1">Total Users</h2>
-      <p class="text-3xl font-bold">120</p>
+  <!-- Overview Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-base-100 shadow-md rounded-xl p-4 border border-base-200">
+      <h2 class="text-xl font-semibold text-accent">Total Users</h2>
+      <p class="text-3xl mt-2 text-primary font-bold"><%= Customer::User.count %></p>
     </div>
 
-    <div class="rounded-xl p-6 bg-secondary text-secondary-content shadow">
-      <h2 class="text-xl font-semibold mb-1">Pending Transactions</h2>
-      <p class="text-3xl font-bold">32</p>
+    <div class="bg-base-100 shadow-md rounded-xl p-4 border border-base-200">
+      <h2 class="text-xl font-semibold text-accent">Total Accounts</h2>
+      <p class="text-lg mt-2 text-success font-semibold"><%= Customer::Account.count %></p>
     </div>
 
-    <div class="rounded-xl p-6 bg-accent text-accent-content shadow">
-      <h2 class="text-xl font-semibold mb-1">Approved Roles</h2>
-      <p class="text-3xl font-bold">47</p>
+    <div class="bg-base-100 shadow-md rounded-xl p-4 border border-base-200">
+      <h2 class="text-xl font-semibold text-accent">Pending Transactions</h2>
+      <p class="text-3xl mt-2 text-warning font-bold"><%= Customer::Transaction.pending_status.count %></p>
     </div>
   </div>
 
-  <div class="mt-10 grid gap-4 md:grid-cols-2">
-    <div class="rounded-xl p-6 bg-neutral text-neutral-content shadow hover:bg-neutral-focus cursor-pointer transition">
-      <h3 class="text-lg font-semibold mb-2">Manage Transactions</h3>
-      <p class="text-sm opacity-90">Review and validate all pending financial operations.</p>
-    </div>
-
-    <div class="rounded-xl p-6 bg-warning text-warning-content shadow hover:bg-warning-focus cursor-pointer transition">
-      <h3 class="text-lg font-semibold mb-2">Assign Roles</h3>
-      <p class="text-sm opacity-90">Assign or update roles for new and existing accounts.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Sidebar -->
-<div class="flex flex-col md:flex-row">
-  <aside class="w-full md:w-64 bg-base-100 p-4 shadow-md h-full min-h-screen hidden md:block">
-    <h2 class="text-xl font-bold mb-6">Admin Panel</h2>
-    <nav class="space-y-2">
-      <a href="#transactions" class="block py-2 px-4 rounded hover:bg-primary hover:text-primary-content">Transactions</a>
-      <a href="#accounts" class="block py-2 px-4 rounded hover:bg-primary hover:text-primary-content">Account Details</a>
-      <a href="#roles" class="block py-2 px-4 rounded hover:bg-primary hover:text-primary-content">User Roles</a>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="flex-1 p-6 space-y-12">
-    <!-- Transactions -->
-    <section id="transactions">
-      <h3 class="text-2xl font-semibold mb-4">Transactions</h3>
-      <div class="overflow-x-auto">
-        <% if @transactions.any? %>
-          <table class="min-w-full table-auto border border-base-300">
-            <thead class="bg-base-300">
-              <tr>
-                <th class="px-4 py-2 text-left">ID</th>
-                <th class="px-4 py-2 text-left">From</th>
-                <th class="px-4 py-2 text-left">To</th>
-                <th class="px-4 py-2 text-left">Amount</th>
-                <th class="px-4 py-2 text-left">Transaction Type</th>
-                <th class="px-4 py-2 text-left">Status</th>
-                <th class="px-4 py-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="bg-base-100">
-              <% @transactions.each do |t| %>
-                <tr>
-                  <td class="px-4 py-2"><%= t.id %></td>
-                  <td class="px-4 py-2"><%= t.from.user.full_name %><span></span> #<%= t.from_id %></td>
-                  <td class="px-4 py-2"><%= t.to.user.full_name %><span></span> #<%= t.to_id %></td>
-                  <td class="px-4 py-2"><%= t.amount %></td>
-                  <td class="px-4 py-2"><%= t.transaction_type %></td>
-                  <td class="px-4 py-2"><%= t.status %></td>
-                  <td class="px-4 py-2">
-                    <%= button_to "Validate", validate_transaction_path(t.id), method: :post, form: { data: { turbo_stream: true } }, class: "px-3 py-1 bg-primary text-primary-content rounded" %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <p>There is no transactions to view</p>
-        <% end %>
-      </div>
-    </section>
-
-    <!-- Account Details -->
-    <section id="accounts">
-      <h3 class="text-2xl font-semibold mb-4">Account Details</h3>
-
-      <div class="overflow-x-auto">
-        <% if @users.any? %>
-          <table class="min-w-full table-auto border border-base-300">
-            <thead class="bg-base-300">
-              <tr>
-                <th class="px-4 py-2 text-left">ID</th>
-                <th class="px-4 py-2 text-left">Full Name</th>
-                <th class="px-4 py-2 text-left">Email</th>
-              </tr>
-            </thead>
-            <tbody class="bg-base-100">
-              <% @users.each do |t| %>
-                <tr>
-                  <td class="px-4 py-2"><%= t.id %></td>
-                  <td class="px-4 py-2"><%= t.full_name %></td>
-                  <td class="px-4 py-2"><%= t.email %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <p>There is no users to view</p>
-        <% end %>
-      </div>
-    </section>
-
-    <!-- Arc Account Roles -->
-    <section id="roles">
-      <h3 class="text-2xl font-semibold mb-4">Manage Arc Account Roles</h3>
-      <div class="space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
-          <input type="email" placeholder="User Email" class="input input-bordered w-full md:w-1/3 bg-base-100 border-base-300">
-          <select class="select select-bordered w-full md:w-1/4 bg-base-100 border-base-300">
-            <option disabled selected>Assign Role</option>
-            <% @roles.each do |role| %>
-              <option value="<%= role %>"><%= role.upcase %></option>
-            <% end %>
-          </select>
-          <button class="bg-secondary text-secondary-content px-4 py-2 rounded">Grant Role</button>
+  <!-- Action Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Validate Transactions -->
+    <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
+      <h2 class="text-2xl font-semibold text-primary mb-4">Validate Transactions</h2>
+      <% @transactions.each do |tx| %>
+        <div class="mb-3 p-3 border border-base-300 rounded-lg flex justify-between items-center">
+          <div>
+            <p><span class="font-semibold">Transaction #</span> <%= tx.id %></p>
+            <p class="text-sm text-gray-500">From: <%= tx.from_id %> → To: <%= tx.to_id %></p>
+          </div>
+          <%= button_to "Validate", arc_finalize_transaction_path(tx), method: :post, class: "btn btn-sm btn-success" %>
         </div>
-      </div>
-    </section>
-  </main>
+      <% end %>
+    </div>
+
+    <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
+      <h2 class="text-2xl font-semibold text-primary mb-4">Assign Roles</h2>
+
+      <%= form_with url: arc_assign_role_path, method: :post, local: true do |f| %>
+        <div class="form-control mb-4">
+          <label class="label text-base-content font-medium">Select Account</label>
+          <%= select_tag :arc_account_id,
+                options_from_collection_for_select(Arc::ArcAccount.all, :id, :email),
+                class: "select select-bordered w-full" %>
+        </div>
+
+        <div class="form-control mb-4">
+          <label class="label text-base-content font-medium">Assign Role</label>
+          <%= select_tag :role,
+                options_for_select(Arc::ArcAccount.roles.keys),
+                class: "select select-bordered w-full" %>
+        </div>
+
+        <%= f.submit "Assign Role", class: "btn btn-primary w-full" %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 

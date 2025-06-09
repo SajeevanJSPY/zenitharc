@@ -1,12 +1,14 @@
 module Arc
-  class Transactions < ApplicationController
-    def finalize_transaction
+  class TransactionsController < ApplicationController
+    before_action :authenticate_arc_arc_account!
+
+    def finalize
       transaction = Customer::Transaction.find(params[:id])
-      result = Arc::ValidateTransaction.new(transaction).call
+      result = Arc::Transactions.new(transaction).call
       if result.success?
-        redirect_to home_dashboard_path, notice: "Transaction validated."
+        redirect_to arc_dashboard_path, notice: "Transaction validated."
       else
-        redirect_to home_dashboard_path, alert: result.error
+        redirect_to arc_dashboard_path, alert: result.error
       end
     end
   end
