@@ -1,7 +1,7 @@
 module Customer
-  class TransactionsController < ApplicationController
+  class TransactionsController < BaseController
     def make_transaction
-      @from = current_user
+      @from = current_customer
       service = Customer::MakeTransaction.new(@from.id, params[:to])
       result = service.call(params[:transaction_type], params[:amount])
 
