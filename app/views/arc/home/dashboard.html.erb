@@ -26,41 +26,43 @@
   <!-- Action Section -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <!-- Validate Transactions -->
-    <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
-      <h2 class="text-2xl font-semibold text-primary mb-4">Validate Transactions</h2>
-      <% @transactions.each do |tx| %>
-        <div class="mb-3 p-3 border border-base-300 rounded-lg flex justify-between items-center">
-          <div>
-            <p><span class="font-semibold">Transaction #</span> <%= tx.id %></p>
-            <p class="text-sm text-gray-500">From: <%= tx.from_id %> → To: <%= tx.to_id %></p>
+    <% if @transactions.any? %>
+      <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
+        <h2 class="text-2xl font-semibold text-primary mb-4">Validate Transactions</h2>
+        <% @transactions.each do |tx| %>
+          <div class="mb-3 p-3 border border-base-300 rounded-lg flex justify-between items-center">
+            <div>
+              <p><span class="font-semibold">Transaction #</span> <%= tx.id %></p>
+              <p class="text-sm text-gray-500">From: <%= tx.from_id %> → To: <%= tx.to_id %></p>
+            </div>
+            <%= button_to "Validate", arc_finalize_transaction_path(tx), method: :post, class: "btn btn-sm btn-success" %>
           </div>
-          <%= button_to "Validate", arc_finalize_transaction_path(tx), method: :post, class: "btn btn-sm btn-success" %>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    <% end %>
 
-    <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
-      <h2 class="text-2xl font-semibold text-primary mb-4">Assign Roles</h2>
+    <% if admin? %>
+      <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
+        <h2 class="text-2xl font-semibold text-primary mb-4">Assign Roles</h2>
 
-      <%= form_with url: arc_assign_role_path, method: :post, local: true do |f| %>
-        <div class="form-control mb-4">
-          <label class="label text-base-content font-medium">Select Account</label>
-          <%= select_tag :arc_account_id,
-                options_from_collection_for_select(Arc::ArcAccount.all, :id, :email),
-                class: "select select-bordered w-full" %>
-        </div>
+        <%= form_with url: arc_assign_role_path, method: :post, local: true do |f| %>
+          <div class="form-control mb-4">
+            <label class="label text-base-content font-medium">Select Account</label>
+            <%= select_tag :arc_account_id,
+                  options_from_collection_for_select(assignable_accounts, :id, :email),
+                  class: "select select-bordered w-full" %>
+          </div>
 
-        <div class="form-control mb-4">
-          <label class="label text-base-content font-medium">Assign Role</label>
-          <%= select_tag :role,
-                options_for_select(Arc::ArcAccount.roles.keys),
-                class: "select select-bordered w-full" %>
-        </div>
+          <div class="form-control mb-4">
+            <label class="label text-base-content font-medium">Assign Role</label>
+            <%= select_tag :role,
+                  options_for_select(assignable_roles),
+                  class: "select select-bordered w-full" %>
+          </div>
 
-        <%= f.submit "Assign Role", class: "btn btn-primary w-full" %>
-      <% end %>
-    </div>
+          <%= f.submit "Assign Role", class: "btn btn-primary w-full" %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
-
-
