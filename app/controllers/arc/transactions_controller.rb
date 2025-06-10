@@ -1,7 +1,5 @@
 module Arc
-  class TransactionsController < ApplicationController
-    before_action :authenticate_arc_arc_account!
-
+  class TransactionsController < BaseController
     def finalize
       transaction = Customer::Transaction.find(params[:id])
       result = Arc::Transactions.new(transaction).call

@@ -1,8 +1,8 @@
 module Arc
-  class HomeController < ApplicationController
-    helper_method :arc_signed_in?, :current_arc, :admin?, :assignable_roles, :assignable_accounts
+  class HomeController < BaseController
+    helper_method :assignable_roles, :assignable_accounts
 
-    before_action :authenticate_arc_account!, only: [ :dashboard ]
+    skip_before_action :authenticate_arc_account!, only: [ :index ]
     before_action :prepare_dashboard_data, if: :arc_signed_in?, only: [ :dashboard ]
 
     def index
@@ -13,30 +13,11 @@ module Arc
 
     private
 
-    # Before action methods
-    def authenticate_arc_account!
-      unless arc_signed_in?
-        redirect_to arc_home_path, alert: "Arc account is not signed in. Please log in before accessing the dashboard."
-      end
-    end
-
     def prepare_dashboard_data
       @transactions = Customer::Transaction.pending_status.order(created_at: :desc).limit(10)
     end
 
     # Helper methods
-    def arc_signed_in?
-      arc_arc_account_signed_in?
-    end
-
-    def current_arc
-      current_arc_arc_account
-    end
-
-    def admin?
-      current_arc.admin_role? || current_arc.superadmin_role?
-    end
-
     def assignable_roles
       assignable_roles = Arc::ArcAccount.roles.keys
       if admin?

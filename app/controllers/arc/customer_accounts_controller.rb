@@ -1,4 +1,4 @@
 module Arc
-  class CustomerAccounts < ApplicationController
+  class CustomerAccounts < BaseController
   end
 end

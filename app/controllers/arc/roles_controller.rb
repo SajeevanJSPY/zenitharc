@@ -1,8 +1,5 @@
 module Arc
-  class RolesController < ApplicationController
-    before_action :authenticate_arc_arc_account!
-    before_action :authorize_admin!
-
+  class RolesController < BaseController
     def assign
       target = Arc::ArcAccount.find_by(id: params[:arc_account_id])
       unless target
@@ -19,18 +16,6 @@ module Arc
       else
         redirect_to arc_dashboard_path, alert: result.error
       end
-    end
-
-    private
-
-    def authorize_admin!
-      return if current_arc.admin_role? || current_arc.superadmin_role?
-
-      redirect_to arc_dashboard_path, alert: "You are not authorized to assign roles."
-    end
-
-    def current_arc
-      current_arc_arc_account
     end
   end
 end
