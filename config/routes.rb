@@ -79,5 +79,8 @@ Rails.application.routes.draw do
 
     # Roles
     post "/roles/assign", to: "roles#assign", as: :assign_role
+
+    # Customer Accounts
+    post "/customer_accounts/status", to: "customer_accounts#update_status", as: :update_customer_account_status
   end
 end

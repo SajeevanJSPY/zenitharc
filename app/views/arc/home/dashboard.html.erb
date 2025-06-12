@@ -41,6 +41,7 @@
       </div>
     <% end %>
 
+    <!-- Arc Account Assigning Roles -->
     <% if admin? %>
       <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
         <h2 class="text-2xl font-semibold text-primary mb-4">Assign Roles</h2>
@@ -64,5 +65,28 @@
         <% end %>
       </div>
     <% end %>
+
+    <!-- Customer Account Status Update -->
+    <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200">
+      <h2 class="text-2xl font-semibold text-primary mb-4">Customer Account Status</h2>
+
+      <%= form_with url: arc_update_customer_account_status_path, method: :post, local: true do |f| %>
+        <div class="form-control mb-4">
+          <label class="label text-base-content font-medium">Select Account</label>
+          <%= select_tag :customer_account_id,
+            options_from_collection_for_select(Customer::Account.all, :id, ->(a) { "#{a.account_number} (#{a.status})" }),
+                class: "select select-bordered w-full" %>
+        </div>
+
+        <div class="form-control mb-4">
+          <label class="label text-base-content font-medium">Status</label>
+          <%= select_tag :status,
+                options_for_select(Customer::Account.statuses.keys),
+                class: "select select-bordered w-full" %>
+        </div>
+
+        <%= f.submit "Update Status", class: "btn btn-primary w-full" %>
+      <% end %>
+    </div>
   </div>
 </div>
