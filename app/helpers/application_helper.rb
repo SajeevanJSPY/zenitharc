@@ -8,4 +8,13 @@ module ApplicationHelper
     else "alert-info"
     end
   end
+
+  def status_color(status)
+    case status
+    when "active" then "badge-success"
+    when "suspended" then "badge-warning"
+    when "closed" then "badge-error"
+    else "badge-ghost"
+    end
+  end
 end

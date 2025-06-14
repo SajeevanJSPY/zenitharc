@@ -23,6 +23,42 @@
     </div>
   </div>
 
+  <!-- Customer Accounts Overview -->
+  <div class="bg-base-100 shadow-md rounded-xl p-6 border border-base-200 mt-10">
+    <h2 class="text-2xl font-semibold text-primary mb-4">Customer Accounts Overview</h2>
+
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full text-sm">
+        <thead>
+          <tr class="text-base-content text-sm font-semibold">
+            <th>Account #</th>
+            <th>User ID</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th class="text-right">Balance</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Customer::Account.order(created_at: :desc).limit(10).each do |account| %>
+            <tr>
+              <td><%= account.account_number %></td>
+              <td><%= account.user_id %></td>
+              <td><span class="badge badge-outline badge-accent"><%= account.account_type.capitalize %></span></td>
+              <td>
+                <span class="badge <%= status_color(account.status) %>">
+                  <%= account.status.capitalize %>
+                </span>
+              </td>
+              <td class="text-right font-mono text-success"><%= number_to_currency(account.balance) %></td>
+              <td><%= link_to "View", customer_account_path(account.account_number), class: "btn btn-sm btn-outline" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Action Section -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <!-- Validate Transactions -->

@@ -32,6 +32,9 @@ Rails.application.routes.draw do
       post   "password",     to: "devise/passwords#create", as: :password
     end
 
+    # Resources
+    resources :accounts, param: :account_number, only: [ :show ]
+
     # Pages
     get "/", to: "home#index", as: :home
     get "/dashboard", to: "home#dashboard", as: :dashboard

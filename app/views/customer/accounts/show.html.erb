@@ -1,0 +1,43 @@
+<div class="p-8 space-y-6">
+  <!-- Header -->
+  <div class="text-center">
+    <h1 class="text-3xl font-bold text-primary">Account Details</h1>
+    <p class="text-gray-500">Account #<%= @account.account_number %></p>
+  </div>
+
+  <!-- Account Info -->
+  <div class="bg-base-100 shadow-lg rounded-xl p-6 border border-base-200">
+    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-base-content">
+      <div>
+        <dt class="font-semibold text-sm text-gray-400">User ID</dt>
+        <dd class="text-lg font-medium"><%= @account.user_id %></dd>
+      </div>
+      <div>
+        <dt class="font-semibold text-sm text-gray-400">Account Type</dt>
+        <dd class="text-lg font-medium capitalize"><%= @account.account_type %></dd>
+      </div>
+      <div>
+        <dt class="font-semibold text-sm text-gray-400">Status</dt>
+        <dd>
+          <span class="badge <%= status_color(@account.status) %>">
+            <%= @account.status.capitalize %>
+          </span>
+        </dd>
+      </div>
+      <div>
+        <dt class="font-semibold text-sm text-gray-400">Balance</dt>
+        <dd class="text-lg text-success font-mono"><%= number_to_currency(@account.balance) %></dd>
+      </div>
+      <div class="col-span-full">
+        <dt class="font-semibold text-sm text-gray-400">Created At</dt>
+        <dd class="text-base"><%= @account.created_at.strftime('%B %d, %Y %l:%M %p') %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <% if customer_signed_in? %>
+    <%= link_to "Back to Dashboard", customer_dashboard_path, class: "btn btn-outline btn-primary" %>
+  <% elsif arc_signed_in? %>
+    <%= link_to "Back to Dashboard", arc_dashboard_path, class: "btn btn-outline btn-primary" %>
+  <% end %>
+</div>
